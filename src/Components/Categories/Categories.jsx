@@ -1,15 +1,13 @@
+import CategoryList from "./CategoryList";
 import { useCategoryGetQuery } from "../../features/categories/categoryApi";
 
 const Categories = () => {
   const { data } = useCategoryGetQuery();
-  console.log(data);
   return (
     <div>
-      <div>
+      <div className="grid grid-cols-2 gap-5 row-gap-5 sm:grid-cols-3 lg:grid-cols-6">
         {data?.data?.map((category) => (
-          <div key={category._id}>
-            <h1 className="text-black">{category.categoryName}</h1>
-          </div>
+          <CategoryList key={category._id} category={category}></CategoryList>
         ))}
       </div>
     </div>

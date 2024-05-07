@@ -1,3 +1,6 @@
+import Categories from "../../Components/Categories/Categories";
+import Products from "../../Components/Products/Products";
+
 export const Home = () => {
   return (
     <div>
@@ -22,7 +25,7 @@ export const Home = () => {
             <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
               Brand new
             </p>
-            <h2 className="mb-5 font-sans lg:text-7xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
+            <h2 className="mb-5 font-sans lg:text-5xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
               <span className="text-blue-500">Everything</span> you
               <br className="hidden md:block" />
               can imagine{" "}
@@ -53,6 +56,9 @@ export const Home = () => {
           </div>
         </div>
       </div>
+
+      <Categories></Categories>
+      <Products></Products>
     </div>
   );
 };
