@@ -1,3 +1,4 @@
+import Brands from "../../Components/Brands/Brands";
 import Categories from "../../Components/Categories/Categories";
 import Products from "../../Components/Products/Products";
 
@@ -59,6 +60,7 @@ export const Home = () => {
 
       <Categories></Categories>
       <Products></Products>
+      <Brands></Brands>
     </div>
   );
 };

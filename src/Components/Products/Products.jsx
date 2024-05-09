@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useListByRemarkQuery } from "../../features/products/productsApi";
+import { useGetListByRemarkQuery } from "../../features/products/productsApi";
 
 const Products = () => {
   const [remark, setRemark] = useState("New"); // Capitalized 'N'
 
   // Fetch products based on the selected remark
-  const { data, isLoading } = useListByRemarkQuery(remark);
+  const { data, isLoading } = useGetListByRemarkQuery(remark);
   console.log(data?.data);
 
   // Function to handle button click and update the remark state
@@ -16,7 +16,7 @@ const Products = () => {
 
   return (
     <div className="section">
-      <div className="container py-5 bg-white">
+      <div className="bg-white">
         {/* Display the current remark on the top right corner */}
 
         <div className="flex justify-center">
@@ -66,12 +66,12 @@ const Products = () => {
         </div>
 
         {/* Display products based on the selected remark */}
-        <div className="grid grid-cols-4 gap-4 mt-8 ml-20">
+        <div className="grid grid-cols-5 gap-4 mt-8 ml-20 mr-24">
           {isLoading ? (
             <h1 className="text-center col-span-4">Loading.....</h1>
           ) : (
             data?.data?.map((item, i) => (
-              <div key={i} className="col-span-1 md:col-span-1 lg:col-span-1 ">
+              <div key={i} className="w-full ">
                 <Link to={`/details/${item["_id"]}`} className="block">
                   <div className="card shadow-sm rounded-lg bg-white">
                     <img
