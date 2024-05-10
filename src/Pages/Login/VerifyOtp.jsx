@@ -1,36 +1,39 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./VerifyOtp.css";
 
 const VerifyOtp = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const email = location.state?.email || "";
   const [formData, setFormData] = useState({
-    email: "",
-    otp: "",
-    password: "",
+    otp: ["", "", "", "", "", ""],
   });
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e, index) => {
+    const { value } = e.target;
+    const updatedOtp = [...formData.otp];
+    updatedOtp[index] = value;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      otp: updatedOtp,
     }));
   };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     try {
-      const verifyResult = await axios.post(
-        "http://localhost:5000/verifyOtp",
-        formData
-      );
+      const otp = formData.otp.join("");
+      const verifyResult = await axios.post("http://localhost:5000/verifyOtp", {
+        email,
+        otp,
+      });
       if (verifyResult.data.status === "success") {
-        // Redirect to success page or dashboard upon successful OTP verification
         navigate("/");
       } else {
-        setMessage("Invalid OTP or password. Please try again.");
+        setMessage("Invalid OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -39,42 +42,27 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div>
+    <div className="otp-container">
       <h2>OTP Verification</h2>
       <form onSubmit={handleVerifyOTP}>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required // Make email field required
-          />
-        </label>
-        <label>
-          OTP:
-          <input
-            type="text"
-            name="otp"
-            value={formData.otp}
-            onChange={handleInputChange}
-            required // Make OTP field required
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required // Make password field required
-          />
-        </label>
-        <button type="submit">Verify OTP</button>
+        <div className="otp-input-container">
+          {formData.otp.map((digit, index) => (
+            <input
+              key={index}
+              type="text"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleInputChange(e, index)}
+              className="otp-input"
+              required
+            />
+          ))}
+        </div>
+        <button type="submit" className="verify-btn">
+          Verify OTP
+        </button>
       </form>
-      <p>{message}</p>
+      <p className="message">{message}</p>
     </div>
   );
 };
