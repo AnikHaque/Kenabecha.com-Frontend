@@ -4,6 +4,7 @@ import { Home } from "../../Pages/Home/Home";
 import ProductList from "../../Components/Products/ProductList";
 import Registration from "../../Pages/Login/Registration";
 import VerifyOtp from "../../Pages/Login/VerifyOtp";
+import Login from "../../Pages/Login/Login";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/verify-otp",
         element: <VerifyOtp></VerifyOtp>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
       },
     ],
   },

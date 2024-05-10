@@ -3,6 +3,11 @@ import Categories from "../../Components/Categories/Categories";
 import Products from "../../Components/Products/Products";
 
 export const Home = () => {
+  // Retrieve user information from localStorage
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+
+  // Extract email and role from user information
+  const { role } = userInfo || {};
   return (
     <div>
       <div className="relative flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0">
@@ -44,7 +49,7 @@ export const Home = () => {
                 href="/"
                 className="inline-flex items-center justify-center h-12 px-6 mr-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-500 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
               >
-                Get started
+                {role}
               </a>
               <a
                 href="/"
