@@ -1,32 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
 
-const Productproduct = () => {
-  // const { productId } = useParams();
-  // const [product, setProduct] = useState(null);
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchProductproduct = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:5000/Productproduct/${productId}`
-  //       );
-  //       console.log(response.data.data[0]);
-  //       setProduct(response.data.data[0]);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching product product:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchProductproduct();
-  // }, [productId]);
+const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState("Speci-tab-pane");
   const [quantity, setQuantity] = useState(1);
   const [CartForm, setCartForm] = useState({ size: "", color: "" });
+  const [selectedImage, setSelectedImage] = useState(0); // Track the selected image
 
   const CartFormChange = (key, value) => {
     setCartForm({ ...CartForm, [key]: value });
@@ -58,83 +36,44 @@ const Productproduct = () => {
 
   // Dummy product details
   const dummyProduct = {
-    title: "Awesome Product",
-    category: { categoryName: "Electronics" },
-    brand: { brandName: "AwesomeBrand" },
-    shortDes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    price: 99.99,
-    discount: true,
-    discountPrice: 79.99,
-    details: {
-      size: "Small, Medium, Large",
-      color: "Red, Blue, Green",
-      des: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lectus non nisi euismod vehicula.",
-    },
-  };
+    img1: "https://photo.teamrabbil.com/images/2023/10/08/7.jpeg",
+    img2: "https://photo.teamrabbil.com/images/2023/10/08/scaled.jpeg",
+    img3: "https://photo.teamrabbil.com/images/2023/10/08/scaled.jpeg",
 
-  // Dummy reviews
-  const reviews = [
-    {
-      id: 1,
-      user: "John Doe",
-      rating: 4,
-      comment: "Great product, highly recommended!",
-    },
-    {
-      id: 2,
-      user: "Jane Smith",
-      rating: 5,
-      comment: "Excellent quality, fast delivery!",
-    },
-  ];
+    des: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    color: ["Red", "Black", "Blue"],
+    size: ["13", "14", "17"],
+    productID: "654dbf25abda0c85053c9902",
+    createdAt: "2023-09-20T17:17:56.893Z",
+    updatedAt: "2023-09-20T17:17:56.893Z",
+  };
 
   return (
     <div className="container mx-auto py-4">
       <div className="flex flex-wrap">
         <div className="w-full md:w-1/2 p-4">
           <img
-            src="https://via.placeholder.com/500x500"
+            src={dummyProduct[`img${selectedImage + 1}`]} // Use the selected image
             alt="Product"
             className="w-full mb-4 rounded-lg shadow-lg"
           />
           <div className="flex space-x-2">
-            <img
-              src="https://via.placeholder.com/500x500"
-              alt="Product"
-              className="w-1/3 rounded-lg shadow-lg"
-            />
-            <img
-              src="https://via.placeholder.com/500x500"
-              alt="Product"
-              className="w-1/3 rounded-lg shadow-lg"
-            />
-            <img
-              src="https://via.placeholder.com/500x500"
-              alt="Product"
-              className="w-1/3 rounded-lg shadow-lg"
-            />
+            {[...Array(8)].map((_, index) => (
+              <img
+                key={index}
+                src={dummyProduct[`img${index + 1}`]}
+                alt="Product"
+                className={`w-1/3 rounded-lg shadow-lg cursor-pointer ${
+                  index === selectedImage ? "opacity-50" : ""
+                }`}
+                onClick={() => setSelectedImage(index)} // Set the selected image
+              />
+            ))}
           </div>
         </div>
         <div className="w-full md:w-1/2 p-4">
-          <h4 className="text-2xl font-semibold">{dummyProduct.title}</h4>
-          <p className="text-sm text-gray-600">
-            Category: {dummyProduct.category.categoryName}
-          </p>
-          <p className="text-sm text-gray-600">
-            Brand: {dummyProduct.brand.brandName}
-          </p>
-          <p className="text-base my-2">{dummyProduct.shortDes}</p>
-          {dummyProduct.discount ? (
-            <p className="text-lg font-semibold">
-              Price:{" "}
-              <span className="line-through text-gray-600">
-                {dummyProduct.price}
-              </span>{" "}
-              {dummyProduct.discountPrice}{" "}
-            </p>
-          ) : (
-            <p className="text-lg font-semibold">Price: {dummyProduct.price}</p>
-          )}
+          <h4 className="text-2xl font-semibold">Product Title</h4>
+          <p className="text-base my-2">{dummyProduct.des}</p>
           <div className="flex my-4">
             <div className="w-1/3 pr-2">
               <label className="text-sm">Size</label>
@@ -146,7 +85,7 @@ const Productproduct = () => {
                 className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
               >
                 <option value="">Size</option>
-                {dummyProduct.details.size.split(",").map((item, i) => (
+                {dummyProduct.size.map((item, i) => (
                   <option key={i} value={item}>
                     {item}
                   </option>
@@ -163,7 +102,7 @@ const Productproduct = () => {
                 className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
               >
                 <option value="">Color</option>
-                {dummyProduct.details.color.split(",").map((item, i) => (
+                {dummyProduct.color.map((item, i) => (
                   <option key={i} value={item}>
                     {item}
                   </option>
@@ -197,13 +136,13 @@ const Productproduct = () => {
           <div className="flex">
             <button
               onClick={AddCart}
-              className="w-full py-2 mr-2 bg-green-500 text-white font-semibold rounded focus:outline-none hover:bg-green-600"
+              className="w-full py-2 mr-2 bg-blue-500 text-white font-semibold rounded focus:outline-none hover:bg-green-600"
             >
               Add to Cart
             </button>
             <button
               onClick={AddWish}
-              className="w-full py-2 bg-green-500 text-white font-semibold rounded focus:outline-none hover:bg-green-600"
+              className="w-full py-2 bg-orange-500 text-white font-semibold rounded focus:outline-none hover:bg-green-600"
             >
               Add to Wish
             </button>
@@ -236,26 +175,13 @@ const Productproduct = () => {
         {activeTab === "Speci-tab-pane" && (
           <div className="mt-4">
             <h5 className="mt-4 mb-2 font-semibold">Specifications</h5>
-            <p>{dummyProduct.details.des}</p>
+            <p>Product specifications here</p>
           </div>
         )}
         {activeTab === "Review-tab-pane" && (
           <div className="mt-4">
             <h5 className="mt-4 mb-2 font-semibold">Reviews</h5>
-            {reviews.map((review) => (
-              <div
-                key={review.id}
-                className="mb-4 border-b border-gray-300 pb-4"
-              >
-                <p>
-                  <strong>{review.user}</strong>
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  Rating: {review.rating}
-                </p>
-                <p>{review.comment}</p>
-              </div>
-            ))}
+            <p>Product reviews here</p>
           </div>
         )}
       </div>
@@ -263,4 +189,4 @@ const Productproduct = () => {
   );
 };
 
-export default Productproduct;
+export default ProductDetails;
