@@ -1,13 +1,15 @@
 import Brands from "../../Components/Brands/Brands";
 import Categories from "../../Components/Categories/Categories";
 import Products from "../../Components/Products/Products";
+import { decodeToken } from "../../Utility/Token";
 
 export const Home = () => {
-  // Retrieve user information from localStorage
-  const userInfo = JSON.parse(localStorage.getItem("user"));
+  // Decode token to retrieve user information
+  const userInfo = decodeToken();
 
-  // Extract email and role from user information
-  const { role } = userInfo || {};
+  // Extract role from user information
+  const role = userInfo ? userInfo.role : null;
+
   return (
     <div>
       <div className="relative flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0">
@@ -26,7 +28,7 @@ export const Home = () => {
             alt=""
           />
         </div>
-        <div className="relative flex flex-col items-start w-full   md:px-0 lg:px-20 lg:max-w-full px-8">
+        <div className="relative flex flex-col items-start w-full md:px-0 lg:px-20 lg:max-w-full px-8">
           <div className="mb-16 lg:my-40 lg:max-w-lg lg:pr-5">
             <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
               Brand new
@@ -63,9 +65,9 @@ export const Home = () => {
         </div>
       </div>
 
-      <Categories></Categories>
-      <Products></Products>
-      <Brands></Brands>
+      <Categories />
+      <Products />
+      <Brands />
     </div>
   );
 };

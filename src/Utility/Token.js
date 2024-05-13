@@ -30,6 +30,10 @@ export const removeToken = () => {
   localStorage.removeItem("token");
 };
 
+export const removeUserData = () => {
+  localStorage.removeItem("userData");
+};
+
 export const removeTokenFromCookie = () => {
   // Set the expiry date of the cookie to a past date to delete it
   document.cookie = "token=; expires=Thu, 01 Jan 2025 00:00:00 UTC; path=/;";

@@ -10,6 +10,7 @@ import {
   decodeToken,
   removeToken,
   removeTokenFromCookie,
+  removeUserData,
 } from "../../Utility/Token";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -167,6 +168,11 @@ const Navbar = () => {
 
       removeToken();
       console.log("Token removed from local storage");
+
+      // Remove user data from localStorage
+      removeUserData();
+      console.log("User data removed from localStorage");
+
       // Clear token from cookie
       removeTokenFromCookie();
       console.log("Token removed from cookie");
