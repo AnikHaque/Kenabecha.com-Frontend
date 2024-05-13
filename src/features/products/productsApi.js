@@ -31,7 +31,7 @@ const productsApi = apiSlice.injectEndpoints({
       }),
     }),
     getProductDetails: builder.query({
-      query: (id) => `/ProductDetails/${id}`,
+      query: (ProductID) => `/ProductDetails/${ProductID}`,
     }),
     getReviewList: builder.query({
       query: (id) => `/ProductReviewList/${id}`,

@@ -5,6 +5,7 @@ import ProductList from "../../Components/Products/ProductList";
 import Registration from "../../Pages/Login/Registration";
 import VerifyOtp from "../../Pages/Login/VerifyOtp";
 import Login from "../../Pages/Login/Login";
+import ProductDetails from "../../Components/Products/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/details/:productId",
+        element: <ProductDetails></ProductDetails>,
       },
     ],
   },
