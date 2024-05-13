@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -6,6 +6,13 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import {
+  decodeToken,
+  removeToken,
+  removeTokenFromCookie,
+} from "../../Utility/Token";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const navigation = {
   categories: [
@@ -143,6 +150,52 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+
+  useEffect(() => {
+    // Decode token to retrieve user information
+    const decodedToken = decodeToken();
+    // Update isLoggedIn based on token existence
+    setIsLoggedIn(!!decodedToken);
+  }, []); // Run only once on component mount
+
+  const handleLogout = async () => {
+    try {
+      // Send a request to the backend to clear the token
+      await axios.post("http://localhost:5000/logout");
+
+      removeToken();
+      console.log("Token removed from local storage");
+      // Clear token from cookie
+      removeTokenFromCookie();
+      console.log("Token removed from cookie");
+
+      // Update isLoggedIn to false after logout
+      setIsLoggedIn(false);
+      console.log("isLoggedIn set to false");
+
+      // Redirect user to the login page or homepage
+      navigate("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+      // Handle error
+    }
+  };
+  const renderLogoutButton = () => {
+    if (isLoggedIn) {
+      return (
+        <button
+          className="bg-blue-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out ml-4 "
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      );
+    } else {
+      return null;
+    }
+  };
   const [open, setOpen] = useState(false);
   return (
     <div>
@@ -541,6 +594,7 @@ const Navbar = () => {
                       <span className="sr-only">items in cart, view bag</span>
                     </a>
                   </div>
+                  <div>{renderLogoutButton()}</div>
                 </div>
               </div>
             </div>

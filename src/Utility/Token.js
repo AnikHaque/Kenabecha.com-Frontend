@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const getToken = () => {
   // Check if token exists in localStorage
@@ -19,23 +19,26 @@ const getToken = () => {
   return null;
 };
 
-const setToken = (token) => {
+export const setToken = (token) => {
   localStorage.setItem("token", token);
 
   // Set token as a cookie
   document.cookie = `token=${token}; path=/; SameSite=Strict`;
 };
 
-const removeToken = () => {
+export const removeToken = () => {
   localStorage.removeItem("token");
 };
 
-const decodeToken = () => {
+export const removeTokenFromCookie = () => {
+  // Set the expiry date of the cookie to a past date to delete it
+  document.cookie = "token=; expires=Thu, 01 Jan 2025 00:00:00 UTC; path=/;";
+};
+
+export const decodeToken = () => {
   const token = getToken();
   if (token) {
     return jwtDecode(token);
   }
   return null;
 };
-
-export { getToken, setToken, removeToken, decodeToken };
