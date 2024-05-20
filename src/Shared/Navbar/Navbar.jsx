@@ -6,14 +6,10 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-  decodeToken,
-  removeToken,
-  removeTokenFromCookie,
-  removeUserData,
-} from "../../Utility/Token";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { decodeToken } from "../../Utility/Token";
 
 const navigation = {
   categories: [

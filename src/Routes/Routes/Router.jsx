@@ -6,6 +6,8 @@ import Registration from "../../Pages/Login/Registration";
 import VerifyOtp from "../../Pages/Login/VerifyOtp";
 import Login from "../../Pages/Login/Login";
 import ProductDetails from "../../Components/Products/ProductDetails";
+import DashboardLayout from "../../Layout/DashboardLayout";
+import Categories from "../../Components/Categories/Categories";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,17 @@ const router = createBrowserRouter([
       {
         path: "/details/:productId",
         element: <ProductDetails></ProductDetails>,
+      },
+    ],
+  },
+
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
+      {
+        path: "/dashboard/admin/all-member",
+        element: <Categories></Categories>,
       },
     ],
   },
